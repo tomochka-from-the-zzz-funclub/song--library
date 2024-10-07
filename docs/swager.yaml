@@ -1,17 +1,15 @@
 openapi: 3.0.0
 info:
   title: Music Library API
-  description: This API allows users to manage their music library, including adding, updating, retrieving, and deleting songs.
+  description: API for managing music library operations.
   version: 1.0.0
-
 servers:
   - url: http://localhost:8080
-
 paths:
   /api/v1/add:
     post:
-      summary: Add a new song to the music library
-      description: This endpoint allows you to add a new song to the music library by providing the song details.
+      summary: Add a new song
+      description: Adds a new song to the music library.
       requestBody:
         required: true
         content:
@@ -21,56 +19,55 @@ paths:
               properties:
                 name:
                   type: string
-                  description: The name of the song.
                 group:
                   type: string
-                  description: The name of the artist or band.
                 release:
                   type: string
                   format: date
-                  description: The release date of the song.
                 text:
                   type: string
-                  description: The lyrics of the song.
                 link:
                   type: string
-                  format: uri
-                  description: A link to listen or buy the song.
       responses:
-        '201':
+        '200':
           description: Song successfully added
+        '400':
+          description: Bad request, invalid input data
+        '500':
+          description: Internal server error
 
   /api/v1/get/filtration:
     get:
-      summary: Retrieve songs with filtration
-      description: This endpoint retrieves a list of songs filtered by group, with pagination support.
+      summary: Filter songs by group
+      description: Retrieves songs filtered by group with pagination.
       parameters:
-        - name: group
-          in: query
+        - in: query
+          name: group
           required: true
-          description: The group name to filter the songs by.
           schema:
             type: string
-        - name: records
-          in: query
+        - in: query
+          name: records
           required: true
-          description: The number of records to return.
           schema:
             type: integer
-        - name: page
-          in: query
+        - in: query
+          name: page
           required: true
-          description: The page number for pagination.
           schema:
             type: integer
       responses:
         '200':
-          description: A list of filtered songs
+          description: List of songs matching the criteria
+        '400':
+          description: Bad request, missing required parameters
+        '500':
+          description: Internal server error
 
   /api/v1/update:
     put:
-      summary: Update an existing song in the music library
-      description: This endpoint allows you to update the details of an existing song by providing its ID and new details.
+      summary: Update a song
+      description: Updates an existing song's details.
       requestBody:
         required: true
         content:
@@ -80,74 +77,77 @@ paths:
               properties:
                 id:
                   type: string
-                  description: The unique identifier of the song.
                 name:
                   type: string
-                  description: The updated name of the song.
                 group:
                   type: string
-                  description: The updated name of the artist or band.
                 release:
                   type: string
                   format: date
-                  description: The updated release date of the song.
                 text:
                   type: string
-                  description: The updated lyrics of the song.
                 link:
                   type: string
-                  format: uri
-                  description: An updated link to listen or buy the song.
       responses:
         '200':
           description: Song successfully updated
+        '400':
+          description: Bad request, invalid or missing input data
+        '500':
+          description: Internal server error
 
   /api/v1/get/text/pagina:
     get:
-      summary: Retrieve song lyrics with pagination
-      description: This endpoint retrieves the lyrics of a song in pages, allowing to specify which couplet and page number to return.
+      summary: Get song text with pagination
+      description: Retrieves the text of a song with pagination.
       parameters:
-        - name: id
-          in: query
+        - in: query
+          name: id
           required: true
-          description: The unique identifier of the song.
           schema:
             type: string
-        - name: couplet
-          in: query
+        - in: query
+          name: couplet
           required: true
-          description: The couplet number to retrieve.
           schema:
             type: integer
-        - name: page
-          in: query
+        - in: query
+          name: page
           required: true
-          description: The page number for pagination.
           schema:
             type: integer
       responses:
         '200':
-          description: The requested lyrics for the specified couplet and page
+          description: Song text retrieved successfully
+        '400':
+          description: Bad request, invalid input parameters
+        '500':
+          description: Internal server error
 
   /metrics:
     get:
-      summary: Retrieve metrics
-      description: This endpoint retrieves metrics for the service.
+      summary: Get metrics
+      description: Retrieves metrics for the application.
       responses:
         '200':
-          description: Metrics data retrieved successfully
+          description: Metrics retrieved successfully
+        '500':
+          description: Internal server error
 
   /api/v1/delete/{id}:
     delete:
-      summary: Delete a song from the music library
-      description: This endpoint allows you to delete a song from the music library by providing its unique identifier.
+      summary: Delete a song
+      description: Deletes a song from the library using its ID.
       parameters:
-        - name: id
-          in: path
+        - in: path
+          name: id
           required: true
-          description: The unique identifier of the song to delete.
           schema:
             type: string
       responses:
-        '204':
+        '200':
           description: Song successfully deleted
+        '400':
+          description: Bad request, invalid ID
+        '500':
+          description: Internal server error
