@@ -1,0 +1,53 @@
+Date : 2024-10-06 18:36:44
+Directory : /home/tamara/golang/song-library
+Total : 15 files,  959 codes, 45 comments, 119 blanks, all 1123 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Go               |         10 |        833 |         43 |        110 |        986 |
+| Go Checksum File |          1 |         54 |          0 |          1 |         55 |
+| YAML             |          1 |         30 |          2 |          2 |         34 |
+| Go Module File   |          1 |         27 |          0 |          4 |         31 |
+| MS SQL           |          1 |          8 |          0 |          0 |          8 |
+| Docker           |          1 |          7 |          0 |          2 |          9 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                            | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                               |         15 |        959 |         45 |        119 |      1,123 |
+| . (Files)                                                       |          4 |        118 |          2 |          9 |        129 |
+| cmd                                                             |          1 |         11 |          4 |          5 |         20 |
+| internal                                                        |         10 |        830 |         39 |        105 |        974 |
+| internal/config                                                 |          1 |         31 |          0 |          6 |         37 |
+| internal/database                                               |          2 |        234 |         29 |         20 |        283 |
+| internal/errors                                                 |          1 |         22 |          3 |          6 |         31 |
+| internal/models                                                 |          1 |         46 |          0 |         13 |         59 |
+| internal/service                                                |          1 |         79 |          2 |         14 |         95 |
+| internal/transport                                              |          4 |        418 |          5 |         46 |        469 |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                        | language         | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /home/tamara/golang/song-library/Dockerfile                     | Docker           |          7 |          0 |          2 |          9 |
+| /home/tamara/golang/song-library/cmd/main.go                    | Go               |         11 |          4 |          5 |         20 |
+| /home/tamara/golang/song-library/docker-compose.yaml            | YAML             |         30 |          2 |          2 |         34 |
+| /home/tamara/golang/song-library/go.mod                         | Go Module File   |         27 |          0 |          4 |         31 |
+| /home/tamara/golang/song-library/go.sum                         | Go Checksum File |         54 |          0 |          1 |         55 |
+| /home/tamara/golang/song-library/internal/config/config.go      | Go               |         31 |          0 |          6 |         37 |
+| /home/tamara/golang/song-library/internal/database/SqlQuery.sql | MS SQL           |          8 |          0 |          0 |          8 |
+| /home/tamara/golang/song-library/internal/database/db.go        | Go               |        226 |         29 |         20 |        275 |
+| /home/tamara/golang/song-library/internal/errors/errors.go      | Go               |         22 |          3 |          6 |         31 |
+| /home/tamara/golang/song-library/internal/models/models.go      | Go               |         46 |          0 |         13 |         59 |
+| /home/tamara/golang/song-library/internal/service/service.go    | Go               |         79 |          2 |         14 |         95 |
+| /home/tamara/golang/song-library/internal/transport/handler.go  | Go               |        246 |          2 |         22 |        270 |
+| /home/tamara/golang/song-library/internal/transport/metrics.go  | Go               |         25 |          0 |          7 |         32 |
+| /home/tamara/golang/song-library/internal/transport/models.go   | Go               |         16 |          0 |          3 |         19 |
+| /home/tamara/golang/song-library/internal/transport/workjsom.go | Go               |        131 |          3 |         14 |        148 |
+| Total                                                           |                  |        959 |         45 |        119 |      1,123 |
++-----------------------------------------------------------------+------------------+------------+------------+------------+------------+

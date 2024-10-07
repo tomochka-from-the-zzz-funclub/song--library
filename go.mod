@@ -1,6 +1,6 @@
-module github.com/tomochka-from-the-zzz-funclub/song--library
+module github.com/tomochka-from-the-zzz-funclub/song-library
 
-go 1.18
+go 1.23
 
 require (
 	github.com/fasthttp/router v1.5.2

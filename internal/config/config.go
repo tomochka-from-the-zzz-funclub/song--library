@@ -13,12 +13,15 @@ type Config struct {
 	DBName     string
 	DBHost     string
 	DBPort     string
-	SwaggerURL string
+	SslMode    string
 }
 
 func LoadConfig() Config {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+	log.Println(os.Getenv("ENV"))
+	if os.Getenv("ENV") != "docker" {
+		if err := godotenv.Load("configs/local.env"); err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 
 	return Config{
@@ -27,6 +30,6 @@ func LoadConfig() Config {
 		DBName:     os.Getenv("DB_NAME"),
 		DBHost:     os.Getenv("DB_HOST"),
 		DBPort:     os.Getenv("DB_PORT"),
-		SwaggerURL: os.Getenv("SWAGGER_URL"),
+		SslMode:    os.Getenv("DB_SSLMODE"),
 	}
 }

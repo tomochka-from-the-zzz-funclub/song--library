@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: Music Library API
+  description: API for managing a music library.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/v1/add:
+    post:
+      summary: Add a new music record
+      description: Creates a new record in the music library.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                author:
+                  type: string
+                release:
+                  type: string
+                  format: date
+                text:
+                  type: string
+                link:
+                  type: string
+      responses:
+        '201':
+          description: Music record created successfully
+  /api/v1/get/filtration:
+    get:
+      summary: Get music records with filtering
+      description: Retrieves a list of music records based on the provided filters.
+      parameters:
+        - name: author
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: records
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of music records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    author:
+                      type: string
+                    release:
+                      type: string
+                    text:
+                      type: string
+                    link:
+                      type: string
+  /api/v1/update:
+    put:
+      summary: Update an existing music record
+      description: Updates the details of a specified music record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                author:
+                  type: string
+                release:
+                  type: string
+                  format: date
+                text:
+                  type: string
+                link:
+                  type: string
+      responses:
+        '200':
+          description: Music record updated successfully
+  /api/v1/get/text/pagina:
+    get:
+      summary: Get text of a specific music record
+      description: Retrieves the text of the specified music record with pagination.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: couplet
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The text of the music record
+          content:
+            application/json:
+              schema:
+                type: string
+  /metrics:
+    get:
+      summary: Get server metrics
+      description: Retrieves metrics data from the server.
+      responses:
+        '200':
+          description: Metrics data successfully retrieved
+  /api/v1/delete/{id}:
+    delete:
+      summary: Delete a music record
+      description: Deletes the specified music record from the library.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Music record deleted successfully
+

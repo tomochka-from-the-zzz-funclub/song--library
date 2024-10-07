@@ -1,9 +1,10 @@
-package transport
+package metrics
 
 import (
 	"strconv"
 	"time"
 
+	"github.com/fasthttp/router"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/valyala/fasthttp"
@@ -19,13 +20,14 @@ var TimeCounter = promauto.NewCounterVec(prometheus.CounterOpts{
 	Help: "Total",
 }, []string{"method", "status"})
 
-func metrics(f func(ctx *fasthttp.RequestCtx), methodName string) func(ctx *fasthttp.RequestCtx) {
+func Middleware(handler fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		Now := time.Now()
-		f(ctx)
+		handler(ctx)
 		TimeWorkF := time.Now().Sub(Now)
-		RequestCounter.WithLabelValues(methodName, strconv.Itoa(ctx.Response.StatusCode())).Inc()
-		TimeCounter.WithLabelValues(methodName, strconv.Itoa(ctx.Response.StatusCode())).Add(float64(TimeWorkF))
+		path := ctx.UserValue(router.MatchedRoutePathParam).(string)
+		RequestCounter.WithLabelValues(path, strconv.Itoa(ctx.Response.StatusCode())).Inc()
+		TimeCounter.WithLabelValues(path, strconv.Itoa(ctx.Response.StatusCode())).Add(float64(TimeWorkF))
 	}
 
 }
