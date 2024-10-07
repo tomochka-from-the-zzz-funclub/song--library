@@ -20,7 +20,7 @@ func ParseJsonSong(ctx *fasthttp.RequestCtx) (models.Song, error) {
 		myLog.Log.Errorf("error in parse json string", err.Error())
 		return models.Song{}, myErrors.ErrParseJSON
 	}
-	if song.Name == "" || song.Author == "" || song.Link == "" || song.ReleaseDate == "" || song.Text == "" {
+	if song.Name == "" || song.Group == "" || song.Link == "" || song.ReleaseDate == "" || song.Text == "" {
 		return models.Song{}, myErrors.ErrEqualJSON
 	}
 
@@ -31,7 +31,7 @@ func ParseJsonSong(ctx *fasthttp.RequestCtx) (models.Song, error) {
 
 	return models.Song{
 		Name:        song.Name,
-		Author:      song.Author,
+		Group:       song.Group,
 		ReleaseDate: time,
 		Text:        song.Text,
 		Link:        song.Link,
@@ -45,7 +45,7 @@ func ParseJsonSongWithID(ctx *fasthttp.RequestCtx) (models.Song, error) {
 	if err != nil {
 		return models.Song{}, myErrors.ErrParseJSON
 	}
-	if song.Name == "" || song.Author == "" || song.Link == "" || song.ReleaseDate == "" || song.Text == "" {
+	if song.Name == "" || song.Group == "" || song.Link == "" || song.ReleaseDate == "" || song.Text == "" {
 		return models.Song{}, myErrors.ErrEqualJSON
 	}
 
@@ -56,7 +56,7 @@ func ParseJsonSongWithID(ctx *fasthttp.RequestCtx) (models.Song, error) {
 	return models.Song{
 		ID:          song.ID,
 		Name:        song.Name,
-		Author:      song.Author,
+		Group:       song.Group,
 		ReleaseDate: time,
 		Text:        song.Text,
 		Link:        song.Link,
@@ -70,7 +70,7 @@ func ParseJsonNameAndAuthorSong(ctx *fasthttp.RequestCtx) (string, string, error
 	}
 	err := json.NewDecoder(bytes.NewReader(ctx.Request.Body())).Decode(&namesong)
 	if err != nil {
-		return "", "", myErrors.ErrParseJSONNameAndAuthor
+		return "", "", myErrors.ErrParseJSONNameAndGroup
 	}
 	return namesong.Name, namesong.Author, nil
 }
@@ -85,9 +85,9 @@ func WriteJson(ctx *fasthttp.RequestCtx, s string) error {
 	return nil
 }
 
-func WriteJsonID(ctx *fasthttp.RequestCtx, id int) error {
+func WriteJsonID(ctx *fasthttp.RequestCtx, id string) error {
 	var idsong struct {
-		ID int `json:"id"`
+		ID string `json:"id"`
 	}
 	ctx.SetContentType("application/json")
 	ctx.Response.BodyWriter()

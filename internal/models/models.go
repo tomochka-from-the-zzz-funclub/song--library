@@ -3,9 +3,9 @@ package models
 import "time"
 
 type Song struct {
-	ID          int       `json:"id"`
+	ID          string    `json:"id"`
 	Name        string    `json:"name"`
-	Author      string    `json:"author"`
+	Group       string    `json:"group"`
 	ReleaseDate time.Time `json:"release"`
 	Text        string    `json:"text"`
 	Link        string    `json:"link"`
@@ -15,8 +15,8 @@ func (song *Song) SetName(n string) {
 	song.Name = n
 }
 
-func (song *Song) SetAuthor(g string) {
-	song.Author = g
+func (song *Song) SetGroup(g string) {
+	song.Group = g
 }
 
 func (song *Song) SetText(t string) {
@@ -29,7 +29,7 @@ func (song *Song) SetReleaseDate(t time.Time) {
 	song.ReleaseDate = t
 }
 
-func (song *Song) GetID() int {
+func (song *Song) GetID() string {
 	return song.ID
 }
 
@@ -37,8 +37,8 @@ func (song *Song) GetName() string {
 	return song.Name
 }
 
-func (song *Song) GetAuthor() string {
-	return song.Author
+func (song *Song) GetGroup() string {
+	return song.Group
 }
 
 func (song *Song) GetText() string {
@@ -53,6 +53,6 @@ func (song *Song) GetReleaseDateT() time.Time {
 	return song.ReleaseDate
 }
 
-func (song *Song) GetReleaseDateS() string { // мне не нужно проверять
+func (song *Song) GetReleaseDateS() string {
 	return song.ReleaseDate.Format("2006/01/02")
 }

@@ -62,25 +62,25 @@ func (hb *HandlersBuilder) Add(middlewares ...middlewares.Middleware) func(ctx *
 func (hb *HandlersBuilder) Delete(middlewares ...middlewares.Middleware) func(ctx *fasthttp.RequestCtx) {
 	myLog.Log.Infof("Start func Delete")
 	return tools.ApplyMiddleware((func(ctx *fasthttp.RequestCtx) {
-		idStr, ok := ctx.UserValue("id").(string)
+		id, ok := ctx.UserValue("id").(string)
 		if !ok {
 			WriteJsonErr(ctx, myErrors.ErrUnknownTypeParams)
 			myLog.Log.Errorf("Error unknown type id")
 		}
-		id, err := strconv.Atoi(idStr)
+		//id, err := strconv.Atoi(idStr)
+		// if err != nil {
+		// 	WriteJsonErr(ctx, err)
+		// 	myLog.Log.Errorf("Error parsing song name")
+		// } else {
+		myLog.Log.Debugf("Trying to delete a song")
+		err := hb.srv.DeleteSong(id)
 		if err != nil {
 			WriteJsonErr(ctx, err)
-			myLog.Log.Errorf("Error parsing song name")
-		} else {
-			myLog.Log.Debugf("Trying to delete a song")
-			err = hb.srv.DeleteSong(id)
-			if err != nil {
-				WriteJsonErr(ctx, err)
-				myLog.Log.Errorf("The song specified to delete is not in the library with id: %v", id)
-				return
-			}
-			myLog.Log.Debugf("Song successfully deleted")
+			myLog.Log.Errorf("The song specified to delete is not in the library with id: %v", id)
+			return
 		}
+		myLog.Log.Debugf("Song successfully deleted")
+		//}
 
 	}), middlewares...)
 }
@@ -89,7 +89,7 @@ func (hb *HandlersBuilder) GetWithFiltration(middlewares ...middlewares.Middlewa
 	myLog.Log.Infof("Start func GetWithFiltration")
 	return tools.ApplyMiddleware((func(ctx *fasthttp.RequestCtx) {
 		filtre_name := string(ctx.QueryArgs().Peek("name"))
-		filtre_author := string(ctx.QueryArgs().Peek("author"))
+		filtre_group := string(ctx.QueryArgs().Peek("group"))
 		filtre_release := string(ctx.QueryArgs().Peek("release"))
 		filtre_text := string(ctx.QueryArgs().Peek("text"))
 		filtre_link := string(ctx.QueryArgs().Peek("link"))
@@ -111,7 +111,7 @@ func (hb *HandlersBuilder) GetWithFiltration(middlewares ...middlewares.Middlewa
 			return
 		}
 		myLog.Log.Debugf("Trying to get a list of songs that have passed the filter")
-		songs, err := hb.srv.GetSongWithFiltre(filtre_name, filtre_author, filtre_release, filtre_text, filtre_link, number_recordsI, pageI)
+		songs, err := hb.srv.GetSongWithFiltre(filtre_name, filtre_group, filtre_release, filtre_text, filtre_link, number_recordsI, pageI)
 		if err != nil {
 			WriteJsonErr(ctx, err)
 			myLog.Log.Errorf("message from func GetWithFiltration %v", err.Error())
@@ -140,11 +140,11 @@ func (hb *HandlersBuilder) UpdateSong(middlewares ...middlewares.Middleware) fun
 			WriteJsonErr(ctx, err)
 			myLog.Log.Errorf("Error parsing song from request body: %v", err.Error())
 		} else {
-			myLog.Log.Errorf("Trying to change song information")
+			myLog.Log.Debugf("Trying to change song information")
 			err = hb.srv.UpdateSong(models.Song{
 				ID:          song.ID,
 				Name:        song.Name,
-				Author:      song.Author,
+				Group:       song.Group,
 				Text:        song.Text,
 				ReleaseDate: song.ReleaseDate,
 				Link:        song.Link,
@@ -175,12 +175,13 @@ func (hb *HandlersBuilder) GetTextWithPagina(middlewares ...middlewares.Middlewa
 			myLog.Log.Errorf("Error parsing parameter page: %v", err.Error())
 			return
 		}
-		id, err := strconv.Atoi(string(ctx.QueryArgs().Peek("id")))
-		if err != nil {
-			WriteJsonErr(ctx, myErrors.ErrParseURL)
-			myLog.Log.Errorf("Error parsing parameter id: %v", err.Error())
-			return
-		}
+		//id, err := strconv.Atoi(string(ctx.QueryArgs().Peek("id")))
+		id := string(ctx.QueryArgs().Peek("id"))
+		// if err != nil {
+		// 	WriteJsonErr(ctx, myErrors.ErrParseURL)
+		// 	myLog.Log.Errorf("Error parsing parameter id: %v", err.Error())
+		// 	return
+		// }
 		if (page < 1) || (number_couplet < 1) {
 			WriteJsonErr(ctx, myErrors.ErrValidationParams)
 			myLog.Log.Errorf("Parameters not validated")

@@ -2,16 +2,16 @@ package transport
 
 type SongRequest struct {
 	Name        string `json:"name"`
-	Author      string `json:"author"`
+	Group       string `json:"group"`
 	ReleaseDate string `json:"release"`
 	Text        string `json:"text"`
 	Link        string `json:"link"`
 }
 
 type SongRequestID struct {
-	ID          int    `json:"id"`
+	ID          string `json:"id"`
 	Name        string `json:"name"`
-	Author      string `json:"author"`
+	Group       string `json:"group"`
 	ReleaseDate string `json:"release"`
 	Text        string `json:"text"`
 	Link        string `json:"link"`

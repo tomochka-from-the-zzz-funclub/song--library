@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Music Library API
+  description: This API allows users to manage their music library, including adding, updating, retrieving, and deleting songs.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/v1/add:
+    post:
+      summary: Add a new song to the music library
+      description: This endpoint allows you to add a new song to the music library by providing the song details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the song.
+                group:
+                  type: string
+                  description: The name of the artist or band.
+                release:
+                  type: string
+                  format: date
+                  description: The release date of the song.
+                text:
+                  type: string
+                  description: The lyrics of the song.
+                link:
+                  type: string
+                  format: uri
+                  description: A link to listen or buy the song.
+      responses:
+        '201':
+          description: Song successfully added
+
+  /api/v1/get/filtration:
+    get:
+      summary: Retrieve songs with filtration
+      description: This endpoint retrieves a list of songs filtered by group, with pagination support.
+      parameters:
+        - name: group
+          in: query
+          required: true
+          description: The group name to filter the songs by.
+          schema:
+            type: string
+        - name: records
+          in: query
+          required: true
+          description: The number of records to return.
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          description: The page number for pagination.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of filtered songs
+
+  /api/v1/update:
+    put:
+      summary: Update an existing song in the music library
+      description: This endpoint allows you to update the details of an existing song by providing its ID and new details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The unique identifier of the song.
+                name:
+                  type: string
+                  description: The updated name of the song.
+                group:
+                  type: string
+                  description: The updated name of the artist or band.
+                release:
+                  type: string
+                  format: date
+                  description: The updated release date of the song.
+                text:
+                  type: string
+                  description: The updated lyrics of the song.
+                link:
+                  type: string
+                  format: uri
+                  description: An updated link to listen or buy the song.
+      responses:
+        '200':
+          description: Song successfully updated
+
+  /api/v1/get/text/pagina:
+    get:
+      summary: Retrieve song lyrics with pagination
+      description: This endpoint retrieves the lyrics of a song in pages, allowing to specify which couplet and page number to return.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: The unique identifier of the song.
+          schema:
+            type: string
+        - name: couplet
+          in: query
+          required: true
+          description: The couplet number to retrieve.
+          schema:
+            type: integer
+        - name: page
+          in: query
+          required: true
+          description: The page number for pagination.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The requested lyrics for the specified couplet and page
+
+  /metrics:
+    get:
+      summary: Retrieve metrics
+      description: This endpoint retrieves metrics for the service.
+      responses:
+        '200':
+          description: Metrics data retrieved successfully
+
+  /api/v1/delete/{id}:
+    delete:
+      summary: Delete a song from the music library
+      description: This endpoint allows you to delete a song from the music library by providing its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the song to delete.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Song successfully deleted

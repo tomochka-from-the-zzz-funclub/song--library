@@ -8,12 +8,12 @@ import (
 
 type ISong interface {
 	SetName(string)
-	SetAuthor(string)
+	SetGroup(string)
 	SetReleaseDate(time.Time)
 	SetText(string)
 	SetLink(string)
 
-	GetAuthor() string
+	GetGroup() string
 	GetName() string
 	GetReleaseDateS() string
 	GetReleaseDateT() time.Time
@@ -22,10 +22,10 @@ type ISong interface {
 }
 
 type Database interface {
-	CreateSong(song ISong) (int, error)
-	DeleteSong(id int) error
-	FindIDByNameAndAuthor(name string, author string) (bool, error)
+	CreateSong(song ISong) (string, error)
+	DeleteSong(id string) error
+	FindIDByNameAndGroup(name string, group string) (bool, error)
 	GetFiltreSong(name, author, release, text, link string, number_records, page int) ([]models.Song, error)
 	UpdateSong(song models.Song) error
-	GetText(id int) (string, error)
+	GetText(id string) (string, error)
 }

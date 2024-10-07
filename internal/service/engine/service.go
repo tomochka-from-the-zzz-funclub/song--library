@@ -21,16 +21,16 @@ func NewServiceMusic(cfg config.Config) *ServiceMusic {
 	return &m
 }
 
-func (s *ServiceMusic) AddSong(song models.Song) (int, error) {
-	check, err := s.base.FindIDByNameAndAuthor(song.Name, song.Author)
+func (s *ServiceMusic) AddSong(song models.Song) (string, error) {
+	check, err := s.base.FindIDByNameAndGroup(song.Name, song.Group)
 	if err != nil {
-		return -1, err
+		return "", err
 	}
 	if !check {
 		id, err := s.base.CreateSong(&song)
 		return id, err
 	}
-	return -1, myErrors.ErrAddSong
+	return "", myErrors.ErrAddSong
 }
 
 func (s *ServiceMusic) GetSongWithFiltre(name, author, release, text, link string, number_records, page int) ([]models.Song, error) {
@@ -38,7 +38,7 @@ func (s *ServiceMusic) GetSongWithFiltre(name, author, release, text, link strin
 	return array_song, err
 }
 
-func (s *ServiceMusic) DeleteSong(id int) error {
+func (s *ServiceMusic) DeleteSong(id string) error {
 	err := s.base.DeleteSong(id)
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func (s *ServiceMusic) UpdateSong(song models.Song) error {
 	return nil
 }
 
-func (s *ServiceMusic) GetCoupletText(id, number_couplet, page int) ([]string, error) {
+func (s *ServiceMusic) GetCoupletText(id string, number_couplet, page int) ([]string, error) {
 	pag_couplets := make([]string, 0)
 	text, err := s.base.GetText(id)
 	if err != nil {

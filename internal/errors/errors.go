@@ -33,7 +33,7 @@ func (e Error) Error() string {
 var ErrParseJSON = NewError(fasthttp.StatusBadRequest, "error decoding json")
 var ErrEqualJSON = NewError(fasthttp.StatusBadRequest, "error read information in JSON format: empty")
 var ErrParseJSONTime = NewError(fasthttp.StatusBadRequest, "errors with parse time relize")
-var ErrParseJSONNameAndAuthor = NewError(fasthttp.StatusBadRequest, "error read name in JSON")
+var ErrParseJSONNameAndGroup = NewError(fasthttp.StatusBadRequest, "error read name in JSON")
 var ErrWriteJSON = NewError(fasthttp.StatusBadRequest, "errors with write responce")
 var ErrWriteJSONID = NewError(fasthttp.StatusBadRequest, "errors with write id in json ctreted song")
 var ErrWriteJSONerr = NewError(fasthttp.StatusInternalServerError, "error writing response to JSON")
